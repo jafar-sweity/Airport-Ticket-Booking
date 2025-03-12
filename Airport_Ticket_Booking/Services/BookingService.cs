@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Airport_Ticket_Booking.Services
 {
-    public class BookingService
+    class BookingService
     {
+
     }
 }
