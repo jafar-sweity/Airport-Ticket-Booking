@@ -28,7 +28,6 @@ namespace Airport_Ticket_Booking.Services
                 FlightClass = flightClass,
                 Price = CalculatePrice(flight.BasePrice, flightClass)
             };
-
             _bookingService.BookFlight(booking);
         }
         public void CancelBooking(int bookingId)
