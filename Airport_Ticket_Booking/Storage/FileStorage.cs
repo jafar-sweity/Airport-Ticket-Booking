@@ -17,6 +17,5 @@ namespace Airport_Ticket_Booking.Storage
             var json = File.ReadAllText(filePath);
             return System.Text.Json.JsonSerializer.Deserialize<List<T>>(json);
      }
-
     }
 }
