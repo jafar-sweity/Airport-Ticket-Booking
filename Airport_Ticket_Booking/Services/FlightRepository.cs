@@ -12,7 +12,7 @@ namespace Airport_Ticket_Booking.Services
     public class FlightRepository : IFlightRepository
     {
         private IFileStorage _fileStorage;
-        private string _filePath = "flights.csv";
+        private string _filePath = @"C:\Users\asus\source\repos\Airport_Ticket_Booking\Airport_Ticket_Booking\flights.csv";
         public FlightRepository(IFileStorage fileStorage) {
             _fileStorage = fileStorage;
         }
