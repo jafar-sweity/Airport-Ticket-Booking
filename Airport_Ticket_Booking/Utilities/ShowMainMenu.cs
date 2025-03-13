@@ -22,6 +22,7 @@ namespace Airport_Ticket_Booking.Utilities
             _flightRepository = flightRepository;
             _passengerService = passengerService;
         }
+
         public void ShowMenu()
         {
             while (true)
@@ -70,6 +71,7 @@ namespace Airport_Ticket_Booking.Utilities
                 }
             }
         }
+
         private void BookFlight()
         {
             try
@@ -143,6 +145,7 @@ namespace Airport_Ticket_Booking.Utilities
             }
             Console.ReadKey();
         }
+
         private void ViewPersonalBookings()
         {
             try
@@ -171,6 +174,7 @@ namespace Airport_Ticket_Booking.Utilities
             }
             Console.ReadKey();
         }
+
         private void CancelBooking()
         {
             try
@@ -229,6 +233,7 @@ namespace Airport_Ticket_Booking.Utilities
             }
             Console.ReadKey();
         }
+
         private void ModifyBooking()
         {
             try
@@ -310,6 +315,7 @@ namespace Airport_Ticket_Booking.Utilities
             }
             Console.ReadKey();
         }
+
         private void SearchAvailableFlights()
         {
             try
@@ -353,6 +359,7 @@ namespace Airport_Ticket_Booking.Utilities
             }
             Console.ReadKey();
         }
+
         private void ViewAllAvailableFlights()
         {
             try
@@ -378,12 +385,12 @@ namespace Airport_Ticket_Booking.Utilities
             }
             Console.ReadKey();
         }
+
         private void ImportFlightsFromCsv()
         {
             try
             {
                 Console.Write("Enter CSV file path for flights import: ");
-                var filePath = @"C:\Users\asus\source\repos\Airport_Ticket_Booking\Airport_Ticket_Booking\large_flights.csv";
 
                 var bookingManager = new BookingManager(_flightRepository);
                 bookingManager.ImportFlightsFromCsv(filePath);
