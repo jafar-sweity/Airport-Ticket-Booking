@@ -49,6 +49,19 @@ namespace Airport_Ticket_Booking.Tests
             _mockRepo.Verify(r => r.SaveBookings(It.Is<List<Booking>>(list => !list.Contains(booking))), Times.Once);
         }
 
+        [Fact]
+        public void CancelBooking_WithInvalidId_DoesNothing()
+        {
+            var bookings = new List<Booking>
+            {
+                new() { BookingID = 1 }
+            };
 
+            _mockRepo.Setup(r => r.GetAllBookings()).Returns(bookings);
+
+            _service.CancelBooking(999);
+
+            _mockRepo.Verify(r => r.SaveBookings(It.IsAny<List<Booking>>()), Times.Never);
+        }
     }
 }
