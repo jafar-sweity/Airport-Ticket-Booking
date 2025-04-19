@@ -64,6 +64,22 @@ namespace Airport_Ticket_Booking.Tests
                 new() { FlightNumber = 101, DepartureCountry = "USA" },
                 new() { FlightNumber = 102, DepartureCountry = "Germany" },
             };
+
+            _flightRepositoryMock.Setup(r => r.GetAllFlights()).Returns(flights);
+
+            var result = _bookingManager.FilterBookings(departureCountry: "USA");
+
+            Assert.Single(result);
+            Assert.Equal(101, result[0].FlightNumber);
         }
+
+        [Fact]
+        public void ImportFlightsFromCsv_FileNotFound_ThrowsException()
+        {
+            var invalidPath = "invalid.csv";
+
+            Assert.Throws<FileNotFoundException>(()=>_bookingManager.ImportFlightsFromCsv(invalidPath));
+        }
+
     }
 }
