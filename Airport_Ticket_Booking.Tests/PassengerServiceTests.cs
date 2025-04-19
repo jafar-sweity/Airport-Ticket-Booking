@@ -110,5 +110,16 @@ namespace Airport_Ticket_Booking.Tests
             Assert.Single(result);
             Assert.Equal(1, result[0].PassengerId);
         }
+
+        [Theory]
+        [InlineData(100, FlightClass.Economy, 100)]
+        [InlineData(100, FlightClass.Business, 150)]
+        [InlineData(100, FlightClass.FirstClass, 200)]
+        public void CalculatePrice_ShouldReturnCorrectValue(decimal basePrice, FlightClass flightClass, decimal expected)
+        {
+            var result = PassengerService.CalculatePrice(basePrice, flightClass);
+
+            Assert.Equal(expected, result);
+        }
     }
 }
