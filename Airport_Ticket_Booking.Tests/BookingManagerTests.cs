@@ -55,5 +55,15 @@ namespace Airport_Ticket_Booking.Tests
 
             File.Delete(testCsvPath);
         }
+
+        [Fact]
+        public void FilterBookings_ByDepartureCountry_ReturnsMatchingFlights()
+        {
+            var flights = new List<Flight>
+            {
+                new() { FlightNumber = 101, DepartureCountry = "USA" },
+                new() { FlightNumber = 102, DepartureCountry = "Germany" },
+            };
+        }
     }
 }
