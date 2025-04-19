@@ -67,5 +67,48 @@ namespace Airport_Ticket_Booking.Tests
 
             _mockBookingService.Verify(bs => bs.ModifyBooking(booking), Times.Once);
         }
+
+        [Fact]
+        public void SearchAvailableFlights_ShouldReturnMatchingFlights()
+        {
+            var targetDate = new DateTime(2025, 5, 1);
+            var matchingFlight = new Flight
+            {
+                DepartureCountry = "USA",
+                DestinationCountry = "Germany",
+                DepartureTime = targetDate,
+                DepartureAirport = "JFK",
+                ArrivalAirport = "FRA"
+            };
+
+            var flights = new List<Flight> { matchingFlight };
+
+            _mockFlightRepository
+                .Setup(fr => fr.GetAllFlights())
+                .Returns(flights);
+
+            var result = _passengerService.SearchAvailableFlights("USA", "Germany", targetDate, "JFK", "FRA", FlightClass.Economy);
+
+            Assert.Single(result);
+            Assert.Equal("Germany", result[0].DestinationCountry);
+        }
+
+        [Fact]
+        public void ViewPersonalBookings_ShouldReturnBookingsFromBookingService()
+        {
+            var expectedBookings = new List<Booking>
+            {
+                new () { PassengerId = 1 }
+            };
+
+            _mockBookingService
+                .Setup(bs => bs.GetBookingsForPassenger(1))
+                .Returns(expectedBookings);
+
+            var result = _passengerService.ViewPersonalBookings(1);
+
+            Assert.Single(result);
+            Assert.Equal(1, result[0].PassengerId);
+        }
     }
 }
