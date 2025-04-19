@@ -5,6 +5,6 @@ namespace Airport_Ticket_Booking.interfaces
     public interface IFlightRepository
     {
         public List<Flight> GetAllFlights();
-        public void SaveFlight(List<Flight> flight);
+        public void SaveFlights(List<Flight> flight);
     }
 }
