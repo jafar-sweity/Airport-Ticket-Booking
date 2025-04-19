@@ -43,7 +43,7 @@ namespace Airport_Ticket_Booking.Tests
                 new () {  FlightNumber =456 }
             };
 
-            _repository.SaveFlight(flights);
+            _repository.SaveFlights(flights);
 
             _mockFileStorage.Verify(fs =>
                 fs.WriteToFile<Flight>(flights, _expectedPath), Times.Once);

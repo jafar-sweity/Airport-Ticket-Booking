@@ -37,7 +37,7 @@ namespace Airport_Ticket_Booking.Services
                 }
             }
 
-            _flightRepository.SaveFlight(flights);
+            _flightRepository.SaveFlights(flights);
 
             Console.WriteLine($"{successCount} rows imported successfully, {failCount} rows failed.");
         }

@@ -45,7 +45,7 @@ namespace Airport_Ticket_Booking.Tests
 
             _bookingManager.ImportFlightsFromCsv(testCsvPath);
 
-            _flightRepositoryMock.Verify(r => r.SaveFlight(It.Is<List<Flight>>(f =>
+            _flightRepositoryMock.Verify(r => r.SaveFlights(It.Is<List<Flight>>(f =>
                 f.Count == 1 &&
                 f[0].FlightNumber == 101 &&
                 f[0].DepartureCountry == "USA" &&
