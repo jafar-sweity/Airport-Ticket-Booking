@@ -63,5 +63,22 @@ namespace Airport_Ticket_Booking.Tests
 
             _mockRepo.Verify(r => r.SaveBookings(It.IsAny<List<Booking>>()), Times.Never);
         }
+
+        [Fact]
+        public void GetBookingsForPassenger_ShouldReturnCorrectBookings()
+        {
+            var bookings = new List<Booking>
+            {
+                new() { BookingID = 1, PassengerId = 1 },
+                new() { BookingID = 2, PassengerId = 2 }
+            };
+
+            _mockRepo.Setup(r => r.GetAllBookings()).Returns(bookings);
+
+            var result = _service.GetBookingsForPassenger(1);
+
+            Assert.Single(result);
+            Assert.Equal(1, result[0].PassengerId);
+        }
     }
 }
