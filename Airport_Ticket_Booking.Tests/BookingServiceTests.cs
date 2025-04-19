@@ -104,7 +104,7 @@ namespace Airport_Ticket_Booking.Tests
         {
             var bookings = new List<Booking>
             {
-                new Booking { BookingID = 1 }
+                new() { BookingID = 1 }
             };
 
             _mockRepo.Setup(r => r.GetAllBookings()).Returns(bookings);
