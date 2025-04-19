@@ -45,5 +45,19 @@ namespace Airport_Ticket_Booking.Tests
             Assert.Equal(mockFlights, result);
             _mockFileStorage.Verify(fs => fs.ReadFromFile<Flight>(_expectedPath), Times.Once);
         }
+
+        [Fact]
+        public void SaveFlight_ShouldCallWriteToFileWithCorrectPath()
+        {
+            var flights = new List<Flight>
+            {
+                new () {  FlightNumber =456 }
+            };
+
+            _repository.SaveFlight(flights);
+
+            _mockFileStorage.Verify(fs =>
+                fs.WriteToFile<Flight>(flights, _expectedPath), Times.Once);
+        }
     }
 }
