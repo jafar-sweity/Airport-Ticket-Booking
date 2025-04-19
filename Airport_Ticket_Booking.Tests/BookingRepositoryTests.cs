@@ -34,5 +34,18 @@ namespace Airport_Ticket_Booking.Tests
             Assert.Equal(expectedBookings, result);
             _mockFileStorage.Verify(fs => fs.ReadFromFile<Booking>(_expectedFilePath), Times.Once);
         }
+
+        [Fact]
+        public void SaveBookings_ShouldCall_WriteToFile_WithCorrectData()
+        {
+            var bookings = new List<Booking>
+            {
+                new() { BookingID = 1, PassengerId = 2 }
+            };
+
+            _bookingRepository.SaveBookings(bookings);
+
+            _mockFileStorage.Verify(fs => fs.WriteToFile(bookings, _expectedFilePath), Times.Once);
+        }
     }
 }
