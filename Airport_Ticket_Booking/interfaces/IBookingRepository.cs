@@ -6,5 +6,7 @@ namespace Airport_Ticket_Booking.interfaces
     {
         public void SaveBookings(List<Booking> bookings);
         public List<Booking> GetAllBookings();
+        void Add(Booking booking);
+        void Remove(Booking booking);
     }
 }
