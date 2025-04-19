@@ -80,6 +80,5 @@ namespace Airport_Ticket_Booking.Tests
 
             Assert.Throws<FileNotFoundException>(()=>_bookingManager.ImportFlightsFromCsv(invalidPath));
         }
-
     }
 }
