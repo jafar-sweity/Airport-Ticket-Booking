@@ -49,5 +49,23 @@ namespace Airport_Ticket_Booking.Tests
             )), Times.Once);
         }
 
+
+        [Fact]
+        public void CancelBooking_ShouldCallBookingServiceCancel()
+        {
+            _passengerService.CancelBooking(5);
+
+            _mockBookingService.Verify(bs => bs.CancelBooking(5), Times.Once);
+        }
+
+        [Fact]
+        public void ModifyBooking_ShouldCallBookingServiceModify()
+        {
+            var booking = new Booking { BookingID = 99 };
+
+            _passengerService.ModifyBooking(booking);
+
+            _mockBookingService.Verify(bs => bs.ModifyBooking(booking), Times.Once);
+        }
     }
 }
