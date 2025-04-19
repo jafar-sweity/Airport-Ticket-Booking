@@ -16,21 +16,17 @@ namespace Airport_Ticket_Booking.Services
 
         public void BookFlight(Booking booking)
         {
-            var bookings = _bookingRepository.GetAllBookings();
-            bookings.Add(booking);
-
-            _bookingRepository.SaveBookings(bookings);
+            _bookingRepository.Add(booking); 
         }
 
         public void CancelBooking(int bookingId)
         {
-            var bookings = _bookingRepository.GetAllBookings();
-            var booking = bookings.FirstOrDefault(b => b.BookingID == bookingId);
+            var booking = _bookingRepository.GetAllBookings()
+                .FirstOrDefault(b => b.BookingID == bookingId);
 
-            if (booking == null) return;
+            if (booking == null) return; 
 
-            bookings.Remove(booking);
-            _bookingRepository.SaveBookings(bookings);
+            _bookingRepository.Remove(booking); 
         }
 
         public List<Booking> GetBookingsForPassenger(int passengerId)
@@ -44,15 +40,13 @@ namespace Airport_Ticket_Booking.Services
 
         public void ModifyBooking(Booking modifiedBooking)
         {
-            var bookings = _bookingRepository.GetAllBookings();
-            var existingBooking = bookings.FirstOrDefault(b => b.BookingID == modifiedBooking.BookingID);
+            var existingBooking = _bookingRepository.GetAllBookings()
+                .FirstOrDefault(b => b.BookingID == modifiedBooking.BookingID);
 
-            if (existingBooking == null) return;
+            if (existingBooking == null) return; 
 
-            bookings.Remove(existingBooking);
-            bookings.Add(modifiedBooking);
-
-            _bookingRepository.SaveBookings(bookings);
+            _bookingRepository.Remove(existingBooking); 
+            _bookingRepository.Add(modifiedBooking);
         }
     }
 }
