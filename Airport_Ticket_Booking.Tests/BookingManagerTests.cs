@@ -1,12 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Airport_Ticket_Booking.interfaces;
+using Airport_Ticket_Booking.models;
+using Airport_Ticket_Booking.Services;
+using FluentAssertions;
+using Moq;
 
 namespace Airport_Ticket_Booking.Tests
 {
-    class BookingManagerTests
+    public class BookingManagerTests
     {
+        private readonly Mock<IFlightRepository> _flightRepositoryMock;
+        private readonly BookingManager _bookingManager;
+
+        public BookingManagerTests()
+        {
+            _flightRepositoryMock = new Mock<IFlightRepository>();
+            _bookingManager = new BookingManager(_flightRepositoryMock.Object);
+        }
+
+        [Fact]
+        public void FilterBookings_ByPrice_ReturnsMatchingFlights()
+        {
+            var flights = new List<Flight>
+            {
+                new() { FlightNumber = 101, BasePrice = 100 },
+                new() { FlightNumber = 102, BasePrice = 200 },
+            };
+            _flightRepositoryMock.Setup(r => r.GetAllFlights()).Returns(flights);
+
+            var result = _bookingManager.FilterBookings(price: 100);
+
+            Assert.Single(result);
+            Assert.Equal(101, result[0].FlightNumber);
+        }
+
+        [Fact]
+        public void ImportFlightsFromCsv_ValidFile_CallsSaveFlightWithParsedFlights()
+        {
+            var testCsvPath = "test_flights.csv";
+            var csvContent = new[]
+            {
+                "FlightNumber,DepartureCountry,DestinationCountry,DepartureTime,DepartureAirport,ArrivalAirport,BasePrice",
+                "101,USA,Germany,2025-05-01 10:00:00,JFK,FRA,350"
+            };
+            File.WriteAllLines(testCsvPath, csvContent);
+
+            _bookingManager.ImportFlightsFromCsv(testCsvPath);
+
+            _flightRepositoryMock.Verify(r => r.SaveFlight(It.Is<List<Flight>>(f =>
+                f.Count == 1 &&
+                f[0].FlightNumber == 101 &&
+                f[0].DepartureCountry == "USA" &&
+                f[0].DestinationCountry == "Germany"
+            )), Times.Once);
+
+            File.Delete(testCsvPath);
+        }
     }
 }
