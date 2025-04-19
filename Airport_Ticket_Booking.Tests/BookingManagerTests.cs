@@ -1,7 +1,6 @@
 ﻿using Airport_Ticket_Booking.interfaces;
 using Airport_Ticket_Booking.models;
 using Airport_Ticket_Booking.Services;
-using FluentAssertions;
 using Moq;
 
 namespace Airport_Ticket_Booking.Tests

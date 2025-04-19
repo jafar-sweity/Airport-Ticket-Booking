@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Airport_Ticket_Booking.interfaces;
+﻿using Airport_Ticket_Booking.interfaces;
 using Airport_Ticket_Booking.models;
 using Airport_Ticket_Booking.Services;
 using Moq;
-using Xunit;
 
 namespace Airport_Ticket_Booking.Tests
 {

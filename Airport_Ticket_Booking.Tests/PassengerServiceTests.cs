@@ -3,19 +3,6 @@ using Airport_Ticket_Booking.models.Enums;
 using Airport_Ticket_Booking.models;
 using Airport_Ticket_Booking.Services;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using Moq;
-using System;
-using System.Collections.Generic;
-using Airport_Ticket_Booking.models;
-using Airport_Ticket_Booking.models.Enums;
-using Airport_Ticket_Booking.Services;
-using Airport_Ticket_Booking.interfaces;
 
 namespace Airport_Ticket_Booking.Tests
 {
