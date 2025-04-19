@@ -2,11 +2,6 @@
 using Airport_Ticket_Booking.models.Enums;
 using Airport_Ticket_Booking.models;
 using Airport_Ticket_Booking.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Airport_Ticket_Booking.Utilities
 {
@@ -391,7 +386,7 @@ namespace Airport_Ticket_Booking.Utilities
             try
             {
                 Console.Write("Enter CSV file path for flights import: ");
-
+                var filePath = @"C:\Users\asus\source\repos\Airport_Ticket_Booking\Airport_Ticket_Booking\large_flights.csv";
                 var bookingManager = new BookingManager(_flightRepository);
                 bookingManager.ImportFlightsFromCsv(filePath);
                 Console.WriteLine("Flights imported successfully.");

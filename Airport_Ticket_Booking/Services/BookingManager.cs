@@ -1,44 +1,44 @@
 ﻿using Airport_Ticket_Booking.interfaces;
 using Airport_Ticket_Booking.models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Airport_Ticket_Booking.Services
 {
-    class BookingManager:IBookingManager
+    public class BookingManager : IBookingManager
     {
         private readonly IFlightRepository _flightRepository;
+
         public BookingManager(IFlightRepository flightRepository)
         {
             _flightRepository = flightRepository;
         }
+
         public void ImportFlightsFromCsv(string filePath)
         {
-            var flights = new List<Flight>();
-            var lines = File.ReadAllLines(filePath);
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException($"CSV file not found at: {filePath}");
 
-            foreach (var line in lines.Skip(1))
-            {
-                var values = line.Split(',');
+            var lines = File.ReadAllLines(filePath).Skip(1); // Skip header
+            var flights = lines.Select(ParseFlightFromCsvLine).ToList();
 
-                var flight = new Flight
-                {
-                    FlightNumber = int.Parse(values[0]),
-                    DepartureCountry = values[1],
-                    DestinationCountry = values[2],
-                    DepartureTime= DateTime.Parse(values[3]),
-                    DepartureAirport = values[4],
-                    ArrivalAirport = values[5],
-                    BasePrice = decimal.Parse(values[6])
-                };
-
-                flights.Add(flight);
-            }
-            _flightRepository.saveFlight(flights);
+            _flightRepository.SaveFlight(flights);
         }
+
+        private Flight ParseFlightFromCsvLine(string line)
+        {
+            var values = line.Split(',').Select(v => v.Trim()).ToArray();
+
+            return new Flight
+            {
+                FlightNumber = int.Parse(values[0]),
+                DepartureCountry = values[1],
+                DestinationCountry = values[2],
+                DepartureTime = DateTime.Parse(values[3]),
+                DepartureAirport = values[4],
+                ArrivalAirport = values[5],
+                BasePrice = decimal.Parse(values[6])
+            };
+        }
+
         public List<Flight> FilterBookings(
             decimal? price = null,
             string departureCountry = null,
@@ -52,15 +52,20 @@ namespace Airport_Ticket_Booking.Services
 
             if (price.HasValue)
                 flights = flights.Where(f => f.BasePrice == price.Value).ToList();
-            if (!string.IsNullOrEmpty(departureCountry))
+
+            if (!string.IsNullOrWhiteSpace(departureCountry))
                 flights = flights.Where(f => f.DepartureCountry.Equals(departureCountry, StringComparison.OrdinalIgnoreCase)).ToList();
-            if (!string.IsNullOrEmpty(destinationCountry))
+
+            if (!string.IsNullOrWhiteSpace(destinationCountry))
                 flights = flights.Where(f => f.DestinationCountry.Equals(destinationCountry, StringComparison.OrdinalIgnoreCase)).ToList();
+
             if (departureDate.HasValue)
                 flights = flights.Where(f => f.DepartureTime.Date == departureDate.Value.Date).ToList();
-            if (!string.IsNullOrEmpty(departureAirport))
+
+            if (!string.IsNullOrWhiteSpace(departureAirport))
                 flights = flights.Where(f => f.DepartureAirport.Equals(departureAirport, StringComparison.OrdinalIgnoreCase)).ToList();
-            if (!string.IsNullOrEmpty(arrivalAirport))
+
+            if (!string.IsNullOrWhiteSpace(arrivalAirport))
                 flights = flights.Where(f => f.ArrivalAirport.Equals(arrivalAirport, StringComparison.OrdinalIgnoreCase)).ToList();
 
             return flights;

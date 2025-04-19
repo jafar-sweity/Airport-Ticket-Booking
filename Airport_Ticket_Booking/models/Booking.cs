@@ -1,11 +1,4 @@
-﻿using Airport_Ticket_Booking.models.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Airport_Ticket_Booking.models
+﻿namespace Airport_Ticket_Booking.models
 {
     public class Booking
     {
