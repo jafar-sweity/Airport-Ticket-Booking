@@ -5,15 +5,18 @@ namespace Airport_Ticket_Booking.Services
 {
     public class FlightRepository : IFlightRepository
     {
-        private IFileStorage _fileStorage;
-        private string _filePath = @"C:\Users\asus\source\repos\Airport_Ticket_Booking\Airport_Ticket_Booking\flights.csv";
+        private readonly IFileStorage _fileStorage;
+        private readonly string _filePath = @"C:\Users\asus\source\repos\Airport_Ticket_Booking\Airport_Ticket_Booking\flights.csv";
+       
         public FlightRepository(IFileStorage fileStorage) {
             _fileStorage = fileStorage;
         }
+       
         public List<Flight> GetAllFlights()
         {
             return _fileStorage.ReadFromFile<Flight>(_filePath);
         }
+       
         public void SaveFlight(List<Flight> flight)
         {
             _fileStorage.WriteToFile<Flight>(flight, _filePath);

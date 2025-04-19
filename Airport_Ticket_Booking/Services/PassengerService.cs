@@ -4,15 +4,11 @@ using Airport_Ticket_Booking.models;
 
 namespace Airport_Ticket_Booking.Services
 {
-    public class PassengerService:IPassengerService
+    public class PassengerService(IBookingService bookingService, IFlightRepository flightRepository) : IPassengerService
     {
-        private readonly IBookingService _bookingService;
-        private readonly IFlightRepository _flightRepository;
-        public PassengerService(IBookingService bookingService, IFlightRepository flightRepository)
-        {
-            _bookingService = bookingService;
-            _flightRepository = flightRepository;
-        }
+        private readonly IBookingService _bookingService = bookingService;
+        private readonly IFlightRepository _flightRepository = flightRepository;
+
         public void BookFlight(Passenger passenger, Flight flight, FlightClass flightClass)
         {
             var booking = new Booking
@@ -23,30 +19,35 @@ namespace Airport_Ticket_Booking.Services
                 FlightClass = flightClass,
                 Price = CalculatePrice(flight.BasePrice, flightClass)
             };
+
             _bookingService.BookFlight(booking);
         }
+
         public void CancelBooking(int bookingId)
         {
             _bookingService.CancelBooking(bookingId);
         }
+
         public void ModifyBooking(Booking newBooking)
         {
             _bookingService.ModifyBooking(newBooking);
         }
+
         public List<Flight> SearchAvailableFlights(string departureCountry, string destinationCountry, DateTime departureDate, string departureAirport, string arrivalAirport, FlightClass flightClass)
         {
             var flights = _flightRepository.GetAllFlights();
-            return flights
+            return [.. flights
                 .Where(f => f.DepartureCountry == departureCountry && f.DestinationCountry == destinationCountry &&
                             f.DepartureTime.Date == departureDate.Date && f.DepartureAirport == departureAirport &&
-                            f.ArrivalAirport == arrivalAirport)
-                .ToList();
+                            f.ArrivalAirport == arrivalAirport)];
         }
+
         public List<Booking> ViewPersonalBookings(int passengerId)
         {
             return _bookingService.GetBookingsForPassenger(passengerId);
         }
-        public decimal CalculatePrice(decimal basePrice, FlightClass flightClass)
+
+        public static decimal CalculatePrice(decimal basePrice, FlightClass flightClass)
         {
             switch (flightClass)
             {
@@ -61,6 +62,7 @@ namespace Airport_Ticket_Booking.Services
                     return -1;
             }
         }
+
         private int GenerateBookingId()
         {
             return new Random().Next(1, 99999);
