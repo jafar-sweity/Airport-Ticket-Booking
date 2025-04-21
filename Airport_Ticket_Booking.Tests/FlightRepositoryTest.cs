@@ -20,17 +20,19 @@ namespace Airport_Ticket_Booking.Tests
         [Fact]
         public void GetAllFlights_ShouldCallReadFromFileWithCorrectPath()
         {
+            // Arrange
             var mockFlights = new List<Flight>
             {
-                new () { FlightNumber = 1 }
+                new() { FlightNumber = 1 }
             };
-
             _mockFileStorage
                 .Setup(fs => fs.ReadFromFile<Flight>(_expectedPath))
                 .Returns(mockFlights);
 
+            // Act
             var result = _repository.GetAllFlights();
 
+            // Assert
             Assert.Equal(mockFlights, result);
             _mockFileStorage.Verify(fs => fs.ReadFromFile<Flight>(_expectedPath), Times.Once);
         }
@@ -38,13 +40,16 @@ namespace Airport_Ticket_Booking.Tests
         [Fact]
         public void SaveFlight_ShouldCallWriteToFileWithCorrectPath()
         {
+            // Arrange
             var flights = new List<Flight>
             {
-                new () {  FlightNumber =456 }
+                new() { FlightNumber = 456 }
             };
 
+            // Act
             _repository.SaveFlights(flights);
 
+            // Assert
             _mockFileStorage.Verify(fs =>
                 fs.WriteToFile<Flight>(flights, _expectedPath), Times.Once);
         }
